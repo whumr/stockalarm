@@ -5,22 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.mr.stockalarm.MainActivity;
 import com.mr.stockalarm.R;
+import com.mr.stockalarm.view.StockManagerActivity;
 
 public class MainMenu extends SlidingMenu {
 
 	static final String ICON = "icon", TITLE = "text";
 	
-	public MainMenu(Activity activity) {
+	public MainMenu(MainActivity activity) {
 		super(activity);
 		setMode(SlidingMenu.LEFT);
         // 滑动显示SlidingMenu的范围
@@ -55,8 +56,8 @@ public class MainMenu extends SlidingMenu {
         }
 
         SimpleAdapter adapter = new SimpleAdapter(activity, items,
-                R.layout.sliding_menu_item, new String[] { ICON, TITLE },
-                new int[] { R.id.icon, R.id.title });
+                R.layout.sliding_menu_item, new String[] {ICON, TITLE},
+                new int[] {R.id.icon, R.id.title});
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new MenuListner(activity));
@@ -64,15 +65,26 @@ public class MainMenu extends SlidingMenu {
 	
 	class MenuListner implements OnItemClickListener {
 
-		private Activity activity;
+		private MainActivity activity;
 		
-		public MenuListner(Activity activity) {
+		public MenuListner(MainActivity activity) {
 			this.activity = activity;
 		}
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			Toast.makeText(activity, "pos:" + position, Toast.LENGTH_SHORT).show();
+			switch (position) {
+				case 0 :
+					Intent intent = new Intent(activity, StockManagerActivity.class);
+					activity.startActivity(intent);
+					break;
+				case 1 :
+					break;
+				case 2 :
+					activity.quit();
+					break;
+			}
+			MainMenu.this.toggle();
 		}
 		
 	}

@@ -1,16 +1,24 @@
 package com.mr.stockalarm.service;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat.Builder;
 
+import com.mr.stockalarm.MainActivity;
 import com.mr.stockalarm.R;
 
 public class AlarmService extends Service {
 
-	private MediaPlayer mediaPlayer;
+	MediaPlayer mediaPlayer;
 
+	NotificationManager mNotificationManager;
+	
 	@Override
 	public void onStart(Intent intent, int startId) {
 		System.out.println("AlarmService onStart...");
@@ -19,18 +27,20 @@ public class AlarmService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		System.out.println("AlarmService onStartCommand...");
-		System.out.println(mediaPlayer == null);
+		
+		mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		
 		// 开始播放音乐
 		mediaPlayer.start();
 		// 音乐播放完毕的事件处理
 		mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 			public void onCompletion(MediaPlayer mediaPlayer) {
 				// 循环播放
-				try {
-					mediaPlayer.start();
-				} catch (IllegalStateException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					mediaPlayer.start();
+//				} catch (IllegalStateException e) {
+//					e.printStackTrace();
+//				}
 			}
 		});
 		// 播放音乐时发生错误的事件处理
@@ -46,6 +56,37 @@ public class AlarmService extends Service {
 			}
 		});
 		return super.onStartCommand(intent, flags, startId);
+	}
+	
+	public void notificate(String title, String content) {
+		Builder builder = new Builder(this);
+		Intent notificationIntent = new Intent(this, MainActivity.class);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+		Notification notification = 
+		builder.setContentIntent(contentIntent)
+		//设置状态栏里面的图标（小图标） 　　　　　　　　　　　　　　　　　　　　
+		.setSmallIcon(R.drawable.ic_launcher)
+		//下拉下拉列表里面的图标（大图标） 　　　　　　　
+		.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
+		//设置状态栏的显示的信息
+		.setTicker(content) 
+		//设置时间发生时间
+		.setWhen(System.currentTimeMillis())
+        //设置可以清除
+		.setAutoCancel(true)
+		//设置下拉列表里的标题
+		.setContentTitle(title)
+		// 设置上下文内容
+		.setContentText(content).build();
+		// 定义Notification的各种属性
+		notification.defaults |= Notification.DEFAULT_SOUND;
+		notification.defaults |= Notification.DEFAULT_VIBRATE;
+		// 0毫秒后开始振动，振动100毫秒后停止，再过200毫秒后再次振动300毫秒
+		long[] vibrate = { 0, 100, 200, 300 };
+		notification.vibrate = vibrate;
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+		
+		mNotificationManager.notify(0, notification);
 	}
 	
 	@Override

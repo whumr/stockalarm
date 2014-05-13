@@ -8,18 +8,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/helloText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
     <EditText
         android:id="@+id/codeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/helloText"
-        android:layout_below="@+id/helloText"
         android:layout_marginTop="29dp"
         android:ems="10"
         android:hint="@string/code_hint" 
@@ -56,14 +48,5 @@
         android:dividerHeight="1px" >
 
     </ListView>
-
-    <LinearLayout
-        android:id="@+id/stockManagerContainer"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/stockList"
-        android:layout_below="@+id/stockList"
-        android:orientation="vertical" >
-    </LinearLayout>
 
 </RelativeLayout>

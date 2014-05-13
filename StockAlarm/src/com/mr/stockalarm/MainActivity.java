@@ -6,11 +6,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,7 +27,6 @@ import com.mr.stockalarm.domain.Record;
 import com.mr.stockalarm.domain.Stock;
 import com.mr.stockalarm.service.AlarmService;
 import com.mr.stockalarm.util.HttpUtil;
-import com.mr.stockalarm.util.SqliteUtil;
 import com.mr.stockalarm.view.BaseActivity;
 import com.mr.stockalarm.view.menu.MainMenu;
 
@@ -49,11 +44,6 @@ public class MainActivity extends BaseActivity {
 	ListView stockList;
 	ArrayAdapter<Stock> adapter;
 	
-	List<Stock> data;
-	
-	SqliteUtil sqliteUtil;
-	SQLiteDatabase db;
-	
 	Timer timer;
 	Handler handler;
 	
@@ -65,16 +55,10 @@ public class MainActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		((TextView)findViewById(R.id.helloText)).setText("test");
 		codeText = (EditText)findViewById(R.id.codeText);
 		contentText = (TextView)findViewById(R.id.contentText);
 		searchButton = (Button)findViewById(R.id.searchButton);
 		stockList = (ListView)findViewById(R.id.stockList);
-		
-		sqliteUtil = new SqliteUtil(this);
-		db = sqliteUtil.getReadableDatabase();
-		db = sqliteUtil.getWritableDatabase();
-		data = sqliteUtil.getStocks(db);
 		
 		adapter = new ArrayAdapter<Stock>(this, R.layout.stock_list, R.id.listText, data);
 		stockList.setAdapter(adapter);
@@ -124,30 +108,12 @@ public class MainActivity extends BaseActivity {
 		menu = new MainMenu(this);
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void refresh() {
 		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < data.size(); i++) 
 			buffer.append(data.get(i).symbol).append(",");
 		if (buffer.length() > 1)
 			search(buffer.substring(0, buffer.length() - 1));
-		System.out.println(buffer.toString());
-		// 创建一个NotificationManager的引用
-		NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		// 定义Notification的各种属性
-		Notification notification = new Notification(R.drawable.ic_launcher, buffer.toString(), System.currentTimeMillis());
-		notification.defaults |= Notification.DEFAULT_SOUND;
-		notification.defaults |= Notification.DEFAULT_VIBRATE;
-		// 0毫秒后开始振动，振动100毫秒后停止，再过200毫秒后再次振动300毫秒
-		long[] vibrate = { 0, 100, 200, 300 };
-		notification.vibrate = vibrate;
-		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		
-		Intent notificationIntent = new Intent(this, MainActivity.class);
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(this, "title", "text", contentIntent);
-		// 把Notification传递给 NotificationManager
-		mNotificationManager.notify(0, notification);
 	}
 	
 	private void search(String codes) {
@@ -233,8 +199,6 @@ public class MainActivity extends BaseActivity {
 		System.out.println("MainActivity finish");
 		Intent intent = new Intent(this, AlarmService.class);
 		stopService(intent);
-		db.close();
-		sqliteUtil.close();
 		super.finish();
 	}
 	
