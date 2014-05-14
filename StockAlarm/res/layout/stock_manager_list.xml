@@ -11,42 +11,48 @@
         android:checked="false" />
     
     <View
-        android:layout_width="1dp"
+        android:id="@+id/sm_line1"
+        android:layout_width="0.5dp"
+        android:layout_toRightOf="@+id/sm_check"
         android:layout_height="fill_parent"
         android:background="#000000"
         android:visibility="visible" />
 
 	<TextView 
         android:id="@+id/sm_code_text"
-        android:layout_toRightOf="@+id/sm_check"
-        android:layout_width="100dp"
+        android:layout_toRightOf="@+id/sm_line1"
+        android:layout_width="70dp"
         android:layout_height="fill_parent"
         android:layout_gravity="center_vertical|left"
         android:gravity="center_vertical|left" />
     
     <View
-        android:layout_width="1dp"
+        android:id="@+id/sm_line2"
+        android:layout_width="0.5dp"
+        android:layout_toRightOf="@+id/sm_code_text"
         android:layout_height="fill_parent"
         android:background="#000000"
         android:visibility="visible" />
 	
     <TextView
         android:id="@+id/sm_name_text"
-        android:layout_toRightOf="@+id/sm_code_text"
-        android:layout_width="120dp"
+        android:layout_toRightOf="@+id/sm_line2"
+        android:layout_width="90dp"
         android:layout_height="fill_parent"
         android:layout_gravity="center_vertical|left"
         android:gravity="center_vertical|left" />
         
 	<View
-        android:layout_width="1dp"
+        android:id="@+id/sm_line3"
+        android:layout_width="0.5dp"
+        android:layout_toRightOf="@+id/sm_name_text"
         android:layout_height="fill_parent"
         android:background="#000000"
         android:visibility="visible" />
 
     <Button 
         android:id="@+id/sm_delete_button"
-        android:layout_toRightOf="@+id/sm_name_text"
+        android:layout_toRightOf="@+id/sm_line3"
         android:layout_width="60dp"
         android:layout_height="fill_parent"
         android:textSize="12sp"

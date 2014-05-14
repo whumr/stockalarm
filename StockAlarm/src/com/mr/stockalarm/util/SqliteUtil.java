@@ -116,7 +116,8 @@ public class SqliteUtil extends SQLiteOpenHelper {
 			"create table records (code varchar(10), updated int, time int, turnover int, volumn int," +
 					"ask varchar(50), bid varchar(50), askvol varchar(50), bidvod varchar(50)," +
 					"yestclose real, open real, price real, high real, low real, updown real, percent real)",
-			"create unique index records_uni_code_updated on records(code, updated)"
+			"create unique index records_uni_code_updated on records(code, updated)",
+			"create table alarms (code varchar(10) primary key, percent real, money real)"
 		};
 	}
 	

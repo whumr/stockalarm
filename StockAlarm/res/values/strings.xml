@@ -15,7 +15,10 @@
     <string name="alert_confirm_quit">确认退出吗？</string>
     <string name="alert_msg_quit">再按一次退出程序</string>
     
+    <string name="sm_header_code">代码</string>
+    <string name="sm_header_name">名称</string>
     <string name="button_delete">删除</string>
+    
     
     <string name="title_activity_stock_manager">关注股管理</string>
 
