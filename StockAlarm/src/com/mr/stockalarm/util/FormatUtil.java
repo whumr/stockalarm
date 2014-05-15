@@ -19,6 +19,10 @@ public class FormatUtil {
 		return Double.parseDouble(DOUBLE_FORMAT.format(percent * 100));
 	}
 	
+	public static double stringToDouble(String str) {
+		return formatDouble(Double.parseDouble(str));
+	}
+	
 	public static String dateToTime(String date) {
 		try {
 			return TIME_FORMAT.format(DATE_FORMAT.parse(date));

@@ -32,6 +32,10 @@
             android:name="com.mr.stockalarm.view.StockManagerActivity"
             android:label="@string/title_activity_stock_manager" >
         </activity>
+        <activity
+            android:name="com.mr.stockalarm.view.AlarmManagerActivity"
+            android:label="@string/title_activity_alarm_manager" >
+        </activity>
     </application>
 
 </manifest>

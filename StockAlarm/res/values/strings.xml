@@ -15,11 +15,24 @@
     <string name="alert_confirm_quit">确认退出吗？</string>
     <string name="alert_msg_quit">再按一次退出程序</string>
     
-    <string name="sm_header_code">代码</string>
-    <string name="sm_header_name">名称</string>
-    <string name="button_delete">删除</string>
+    <string name="code">代码</string>
+    <string name="name">名称</string>
+    <string name="percent">百分比</string>
+    <string name="money">金额</string>
     
+    <string name="add">添加</string>
+    <string name="confirm">确定</string>
+    <string name="delete">删除</string>
+    <string name="cancel">取消</string>
+    
+    <string name="hint_code">输入六位代码</string>
+    <string name="hint_percent">输入百分比,保留两位小数</string>
+    <string name="hint_money">输入金额,保留两位小数</string>
+    
+    <string name="invalid_percent">百分比格式不正确</string>
+    <string name="invalid_money">金额格式不正确</string>
     
     <string name="title_activity_stock_manager">关注股管理</string>
+    <string name="title_activity_alarm_manager">提醒设置</string>
 
 </resources>

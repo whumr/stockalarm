@@ -22,12 +22,12 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import com.mr.stockalarm.common.BaseActivity;
 import com.mr.stockalarm.config.Config;
 import com.mr.stockalarm.domain.Record;
 import com.mr.stockalarm.domain.Stock;
 import com.mr.stockalarm.service.AlarmService;
 import com.mr.stockalarm.util.HttpUtil;
-import com.mr.stockalarm.view.BaseActivity;
 import com.mr.stockalarm.view.menu.MainMenu;
 
 public class MainActivity extends BaseActivity {
@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity {
 		searchButton = (Button)findViewById(R.id.searchButton);
 		stockList = (ListView)findViewById(R.id.stockList);
 		
-		adapter = new ArrayAdapter<Stock>(this, R.layout.stock_list, R.id.listText, data);
+		adapter = new ArrayAdapter<Stock>(this, R.layout.stock_list, R.id.listText, stocks);
 		stockList.setAdapter(adapter);
 		
 		searchButton.setOnClickListener(new OnClickListener() {
@@ -110,8 +110,8 @@ public class MainActivity extends BaseActivity {
 	
 	private void refresh() {
 		StringBuilder buffer = new StringBuilder();
-		for (int i = 0; i < data.size(); i++) 
-			buffer.append(data.get(i).symbol).append(",");
+		for (int i = 0; i < stocks.size(); i++) 
+			buffer.append(stocks.get(i).symbol).append(",");
 		if (buffer.length() > 1)
 			search(buffer.substring(0, buffer.length() - 1));
 	}
@@ -124,8 +124,8 @@ public class MainActivity extends BaseActivity {
 			contentText.setText(stock.toString());
 			boolean exist = false;
 			for (Record record : list) {
-				for (int i = 0; i < data.size(); i++) {
-					stock = data.get(i);
+				for (int i = 0; i < adapter.getCount(); i++) {
+					stock = adapter.getItem(i);
 					if (stock.code.equals(record.code)) {
 						adapter.remove(stock);
 						adapter.insert(new Stock(record), i);

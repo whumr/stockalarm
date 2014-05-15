@@ -15,6 +15,7 @@ import android.widget.SimpleAdapter;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.mr.stockalarm.MainActivity;
 import com.mr.stockalarm.R;
+import com.mr.stockalarm.view.AlarmManagerActivity;
 import com.mr.stockalarm.view.StockManagerActivity;
 
 public class MainMenu extends SlidingMenu {
@@ -75,10 +76,10 @@ public class MainMenu extends SlidingMenu {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			switch (position) {
 				case 0 :
-					Intent intent = new Intent(activity, StockManagerActivity.class);
-					activity.startActivity(intent);
+					activity.startActivity(new Intent(activity, StockManagerActivity.class));
 					break;
 				case 1 :
+					activity.startActivity(new Intent(activity, AlarmManagerActivity.class));
 					break;
 				case 2 :
 					activity.quit();

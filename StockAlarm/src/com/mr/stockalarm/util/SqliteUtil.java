@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.mr.stockalarm.config.Config.DB;
+import com.mr.stockalarm.domain.Alarm;
 import com.mr.stockalarm.domain.Record;
 import com.mr.stockalarm.domain.Stock;
 
@@ -97,6 +98,43 @@ public class SqliteUtil extends SQLiteOpenHelper {
 		}
 	}
 	
+	public void deleteStock(SQLiteDatabase db, String code, boolean deleteRecords) {
+		if (code != null && !"".equals(code.trim())) {
+			db.execSQL(SQL.DELETE_STOCK, new String[] {code});
+			if (deleteRecords)
+				db.execSQL(SQL.DELETE_RECORDS, new String[] {code});
+		}
+	}
+	
+	public void insertOrUpdateAlarm(SQLiteDatabase db, Alarm alarm) {
+		Cursor cursor = db.rawQuery(SQL.GET_ALARM_BY_CODE, new String[]{alarm.code});
+		if (cursor.moveToNext()) 
+			db.execSQL(SQL.UPDATE_ALARM, new Object[]{alarm.percent, alarm.money, alarm.code});
+		else
+			db.execSQL(SQL.INSERT_ALARM, new Object[]{alarm.code, alarm.percent, alarm.money});
+	}
+	
+	public List<Alarm> getAlarms(SQLiteDatabase db) {
+		List<Alarm> list = new ArrayList<Alarm>();
+		Cursor cursor = db.rawQuery(SQL.GET_ALL_ALARM_INFO, null);
+		while (cursor.moveToNext()) {
+			Alarm alarm = new Alarm();
+			alarm.code = cursor.getString(0);
+			alarm.stock_name = cursor.getString(1);
+			alarm.stock_symbol = cursor.getString(2);
+			alarm.percent = cursor.getDouble(3);
+			alarm.money = cursor.getDouble(4);
+			list.add(alarm);
+		}
+		cursor.close();
+		return list;
+	}
+	
+	public void deleteAlarm(SQLiteDatabase db, String code) {
+		if (code != null && !"".equals(code.trim())) 
+			db.execSQL(SQL.DELETE_ALARMS, new String[] {code});
+	}
+	
 	private static class SQL {
 		/** get **/
 		static String GET_ALL_STOCK_INFO = "select s.code, s.symbol, s.name, s.type, r.updated, r.price, r.updown, r.percent " +
@@ -105,10 +143,21 @@ public class SqliteUtil extends SQLiteOpenHelper {
 				"where s.code = r.code";
 		static String GET_STOCK_BY_CODE = "select code from stock where code in (?)";
 		static String GET_RECORD_BY_CODE_UPDATED = "select code from records where code = ? and updated = ? limit 1";
+		static String GET_ALARM_BY_CODE = "select code from alarms where code = ?";
+		static String GET_ALL_ALARM_INFO = "select a.code, s.name, s.symbol, a.percent, a.money from alarms a, stock s where a.code = s.code";
 		
 		/** insert **/
 		static String INSERT_STOCK = "insert into stock values (?, ?, ?, ?)";
 		static String INSERT_RECORD = "insert into records values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		static String INSERT_ALARM = "insert into alarms values (?, ?, ?)";
+		
+		/** delete **/
+		static String DELETE_STOCK = "delete from stock where code = ?";
+		static String DELETE_RECORDS = "delete from records where code = ?";
+		static String DELETE_ALARMS = "delete from alarms where code = ?";
+		
+		/** update **/
+		static String UPDATE_ALARM = "update alarms set percent = ?, money = ? where code = ?";
 		
 		/** create table **/
 		static String[] CREATE_TABLE_SQL = {

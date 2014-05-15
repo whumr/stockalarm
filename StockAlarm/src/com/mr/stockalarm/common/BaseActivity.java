@@ -1,4 +1,4 @@
-package com.mr.stockalarm.view;
+package com.mr.stockalarm.common;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.mr.stockalarm.AppManager;
+import com.mr.stockalarm.domain.Alarm;
 import com.mr.stockalarm.domain.Stock;
 import com.mr.stockalarm.util.SqliteUtil;
 
@@ -17,7 +18,8 @@ public class BaseActivity extends SherlockActivity {
 
 	protected AppManager appManager;
 	
-	protected List<Stock> data;
+	protected List<Stock> stocks;
+	protected List<Alarm> alarms;
 	protected SqliteUtil sqliteUtil;
 	protected SQLiteDatabase db;
 	
@@ -27,18 +29,27 @@ public class BaseActivity extends SherlockActivity {
 		appManager = AppManager.getAppManger();
 		appManager.addActivity(this);
 		
-		
 		sqliteUtil = appManager.getSqliteUtil();
-		if (sqliteUtil == null)
+		if (sqliteUtil == null) {
 			sqliteUtil = new SqliteUtil(this);
+			appManager.setSqliteUtil(sqliteUtil);
+		}
 		db = appManager.getDb();
 		if (db == null) {
 			db = sqliteUtil.getReadableDatabase();
 			db = sqliteUtil.getWritableDatabase();
+			appManager.setDb(db);
 		}
-		data = appManager.getData();
-		if (data == null)
-			data = sqliteUtil.getStocks(db);
+		stocks = appManager.getStocks();
+		if (stocks == null) {
+			stocks = sqliteUtil.getStocks(db);
+			appManager.setStocks(stocks);
+		}
+		alarms = appManager.getAlarms();
+		if (alarms == null) {
+			alarms = sqliteUtil.getAlarms(db);
+			appManager.setAlarms(alarms);
+		}
 	}
 	
 	@Override
@@ -47,19 +58,19 @@ public class BaseActivity extends SherlockActivity {
 		super.onDestroy();
 	}
 	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (db.isOpen())
-			db.close();
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (!db.isOpen())
-			db = sqliteUtil.getWritableDatabase();
-	}
+//	@Override
+//	protected void onPause() {
+//		super.onPause();
+//		if (db.isOpen())
+//			db.close();
+//	}
+//	
+//	@Override
+//	protected void onResume() {
+//		super.onResume();
+//		if (!db.isOpen())
+//			db = sqliteUtil.getWritableDatabase();
+//	}
 	
 	@Override
 	public void finish() {

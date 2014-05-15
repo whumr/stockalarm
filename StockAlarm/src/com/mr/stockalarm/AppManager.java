@@ -3,12 +3,13 @@ package com.mr.stockalarm;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mr.stockalarm.domain.Stock;
-import com.mr.stockalarm.util.SqliteUtil;
-
 import android.app.Activity;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.mr.stockalarm.domain.Alarm;
+import com.mr.stockalarm.domain.Stock;
+import com.mr.stockalarm.util.SqliteUtil;
 
 public class AppManager extends Application {
 	
@@ -16,7 +17,8 @@ public class AppManager extends Application {
 	
 	private static AppManager appManager;
 	
-	private List<Stock> data;
+	private List<Stock> stocks;
+	private List<Alarm> alarms;
 	private SqliteUtil sqliteUtil;
 	private SQLiteDatabase db;
 	
@@ -46,15 +48,35 @@ public class AppManager extends Application {
 		System.exit(0);
 	}
 
-	public List<Stock> getData() {
-		return data;
+	public List<Stock> getStocks() {
+		return stocks;
+	}
+
+	public void setStocks(List<Stock> stocks) {
+		this.stocks = stocks;
+	}
+
+	public List<Alarm> getAlarms() {
+		return alarms;
+	}
+
+	public void setAlarms(List<Alarm> alarms) {
+		this.alarms = alarms;
 	}
 
 	public SqliteUtil getSqliteUtil() {
 		return sqliteUtil;
 	}
 
+	public void setSqliteUtil(SqliteUtil sqliteUtil) {
+		this.sqliteUtil = sqliteUtil;
+	}
+
 	public SQLiteDatabase getDb() {
 		return db;
+	}
+
+	public void setDb(SQLiteDatabase db) {
+		this.db = db;
 	}
 }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    
+	<TableLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:padding="10dp"
+	    android:orientation="vertical" >
+	    
+	    <TableRow>
+	        <TextView 
+		        android:id="@+id/am_code_text"
+		        android:layout_width="60dp"
+		        android:layout_height="wrap_content"
+		        android:text="@string/code" />
+			
+			<AutoCompleteTextView
+			    android:id="@+id/am_code_edit"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:digits="1234567890"
+		        android:maxLength="6"
+		        android:inputType="number"
+		        android:hint="@string/hint_code" />
+	    </TableRow>
+	    
+	    <TableRow>
+	        <TextView
+		        android:id="@+id/am_percent_text"
+		        android:text="@string/percent" />
+		        
+			<EditText
+			    android:id="@+id/am_percent_edit"
+		        android:hint="@string/hint_percent"
+		        android:digits="1234567890."
+		        android:maxLength="5"
+		        android:inputType="numberDecimal" />
+	    </TableRow>
+	
+	    <TableRow>
+	        <TextView
+		        android:id="@+id/am_money_text"
+		        android:text="@string/money" />
+		        
+			<EditText
+			    android:id="@+id/am_money_edit"
+		        android:hint="@string/hint_money"
+		        android:digits="1234567890."
+		        android:inputType="numberDecimal"
+		        android:maxLength="5" />
+	    </TableRow>
+	    
+	</TableLayout>
+	    
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+		<Button 
+	        android:id="@+id/am_edit_button"
+	        android:layout_width="100dp"
+	        android:textSize="12sp"
+	        android:text="@string/confirm"/>
+	
+	    <Button 
+	        android:id="@+id/am_cancel_button"
+	        android:layout_width="100dp"
+	        android:textSize="12sp"
+	        android:text="@string/cancel"/>
+    </TableRow>
+</LinearLayout>
