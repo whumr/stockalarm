@@ -116,6 +116,13 @@ public class MainActivity extends BaseActivity {
 			search(buffer.substring(0, buffer.length() - 1));
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		System.out.println("MainActivity onResume...");
+		adapter.notifyDataSetChanged();
+	}
+	
 	private void search(String codes) {
 		List<Record> list = HttpUtil.getInstance().getStocks_163(codes);
 		if (list != null && !list.isEmpty()) {

@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,7 +21,7 @@ import com.mr.stockalarm.view.fragment.AlarmFragment;
 public class AlarmManagerActivity extends BaseFragmentActivity {
 	
 	ListView alarmList;
-	ListAdapter adapter;
+	AlarmManagerListAdapter adapter;
 	
 	AlarmFragment alarmFragment;
 	
@@ -34,15 +33,21 @@ public class AlarmManagerActivity extends BaseFragmentActivity {
 		adapter = new AlarmManagerListAdapter(alarms);
 		alarmList.setAdapter(adapter);
 		
-		alarmFragment = new AlarmFragment();
+		alarmFragment = new AlarmFragment(this);
 		Button addButton = (Button)findViewById(R.id.am_add_button);
 		addButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				alarmFragment.show(getSupportFragmentManager(), "alarmFragment");
 			}
 		});
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		System.out.println("AlarmManagerActivity onResume...");
+		adapter.notifyDataSetChanged();
 	}
 	
 	class AlarmManagerListAdapter extends BaseAdapter {
@@ -79,7 +84,7 @@ public class AlarmManagerActivity extends BaseFragmentActivity {
 			Button deleteButton = (Button)convertView.findViewById(R.id.am_delete_button);
 			
 			final Alarm alarm = alarms.get(position);
-			codeText.setText(alarm.stock_symbol);
+			codeText.setText(alarm.code);
 			nameText.setText(alarm.stock_name);
 			deleteButton.setOnClickListener(new OnClickListener() {
 				@Override

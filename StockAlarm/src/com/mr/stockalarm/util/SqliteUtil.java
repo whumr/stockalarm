@@ -121,9 +121,8 @@ public class SqliteUtil extends SQLiteOpenHelper {
 			Alarm alarm = new Alarm();
 			alarm.code = cursor.getString(0);
 			alarm.stock_name = cursor.getString(1);
-			alarm.stock_symbol = cursor.getString(2);
-			alarm.percent = cursor.getDouble(3);
-			alarm.money = cursor.getDouble(4);
+			alarm.percent = cursor.getDouble(2);
+			alarm.money = cursor.getDouble(3);
 			list.add(alarm);
 		}
 		cursor.close();
@@ -144,7 +143,7 @@ public class SqliteUtil extends SQLiteOpenHelper {
 		static String GET_STOCK_BY_CODE = "select code from stock where code in (?)";
 		static String GET_RECORD_BY_CODE_UPDATED = "select code from records where code = ? and updated = ? limit 1";
 		static String GET_ALARM_BY_CODE = "select code from alarms where code = ?";
-		static String GET_ALL_ALARM_INFO = "select a.code, s.name, s.symbol, a.percent, a.money from alarms a, stock s where a.code = s.code";
+		static String GET_ALL_ALARM_INFO = "select a.code, s.name, a.percent, a.money from alarms a, stock s where a.code = s.symbol";
 		
 		/** insert **/
 		static String INSERT_STOCK = "insert into stock values (?, ?, ?, ?)";

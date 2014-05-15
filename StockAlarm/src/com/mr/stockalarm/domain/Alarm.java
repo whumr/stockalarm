@@ -7,5 +7,5 @@ public class Alarm {
 	/**
 	 * ext properties
 	 */
-	public String stock_name, stock_symbol;
+	public String stock_name;
 }

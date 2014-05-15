@@ -1,5 +1,6 @@
 package com.mr.stockalarm.view.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -16,6 +17,7 @@ import com.mr.stockalarm.domain.Stock;
 public class StockCodeAdapter extends BaseAdapter implements Filterable {
 
 	private List<Stock> stocks;
+	private List<Stock> m_stocks;
 	private LayoutInflater mInflater;
 	private Filter filter;
 	
@@ -43,11 +45,11 @@ public class StockCodeAdapter extends BaseAdapter implements Filterable {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = (convertView == null ? 
-				mInflater.inflate(android.R.layout.simple_dropdown_item_1line, parent, false) : convertView);
+				mInflater.inflate(android.R.layout.simple_list_item_1, parent, false) : convertView);
 		TextView text = (TextView) view;
 
 		Stock stock = stocks.get(position);
-        text.setText(stock.code + "\t" + stock.name);
+        text.setText(stock.symbol + "\t" + stock.name);
         return view;
 	}
 
@@ -61,8 +63,33 @@ public class StockCodeAdapter extends BaseAdapter implements Filterable {
 	class StockCodeFilter extends Filter {
 
 		@Override
-		protected FilterResults performFiltering(CharSequence constraint) {
-			return null;
+		protected FilterResults performFiltering(CharSequence prefix) {
+			FilterResults results = new FilterResults();
+
+			if (m_stocks == null)
+				m_stocks = new ArrayList<Stock>(stocks);
+			
+            if (prefix == null || prefix.length() == 0) {
+                results.values = m_stocks;
+                results.count = m_stocks.size();
+            } else {
+                String prefixString = prefix.toString().toLowerCase();
+
+                ArrayList<Stock> values = new ArrayList<Stock>(m_stocks);
+
+                final int count = values.size();
+                final ArrayList<Stock> newValues = new ArrayList<Stock>();
+
+                for (int i = 0; i < count; i++) {
+                    if (values.get(i).symbol.startsWith(prefixString))
+                        newValues.add(values.get(i));
+                }
+
+                results.values = newValues;
+                results.count = newValues.size();
+            }
+
+            return results;
 		}
 
 		@SuppressWarnings("unchecked")
