@@ -1,5 +1,7 @@
 package com.mr.stockalarm.view.fragment;
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -46,7 +48,8 @@ public class AlarmFragment extends DialogFragment {
 		Button edit_button = (Button)view.findViewById(R.id.am_edit_button);
 		Button cancel_button = (Button)view.findViewById(R.id.am_cancel_button);
 		
-		final StockCodeAdapter adapter = new StockCodeAdapter(alarmManagerActivity, appManager.getStocks());
+		final List<Stock> stocks = appManager.getStocks();
+		final StockCodeAdapter adapter = new StockCodeAdapter(alarmManagerActivity, stocks);
 		
 		final AutoCompleteTextView code_edit = (AutoCompleteTextView)view.findViewById(R.id.am_code_edit);
 		final EditText percent_edit = (EditText)view.findViewById(R.id.am_percent_edit);
@@ -83,6 +86,12 @@ public class AlarmFragment extends DialogFragment {
 					return;
 				}
 				sqliteUtil.insertOrUpdateAlarm(appManager.getDb(), alarm);
+				for (Stock stock : stocks) {
+					if (stock.symbol.equals(alarm.code)) {
+						alarm.stock_name = stock.name;
+						break;
+					}
+				}
 				appManager.getAlarms().add(alarm);
 				dismiss();
 			}

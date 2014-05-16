@@ -1,5 +1,10 @@
 package com.mr.stockalarm.service;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,39 +15,23 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat.Builder;
 
+import com.mr.stockalarm.AppManager;
 import com.mr.stockalarm.MainActivity;
 import com.mr.stockalarm.R;
+import com.mr.stockalarm.domain.Notify;
 
 public class AlarmService extends Service {
 
 	MediaPlayer mediaPlayer;
-
 	NotificationManager mNotificationManager;
-	
-	@Override
-	public void onStart(Intent intent, int startId) {
-		System.out.println("AlarmService onStart...");
-	}
+	AppManager appManager = AppManager.getAppManger();
+	Timer timer;
+	StockTask stockTask;
+	NotifyTask notifyTask;
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		System.out.println("AlarmService onStartCommand...");
-		
-		mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		
-		// 开始播放音乐
-		mediaPlayer.start();
-		// 音乐播放完毕的事件处理
-		mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-			public void onCompletion(MediaPlayer mediaPlayer) {
-				// 循环播放
-//				try {
-//					mediaPlayer.start();
-//				} catch (IllegalStateException e) {
-//					e.printStackTrace();
-//				}
-			}
-		});
 		// 播放音乐时发生错误的事件处理
 		mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
 			public boolean onError(MediaPlayer mediaPlayer, int what, int extra) {
@@ -59,6 +48,7 @@ public class AlarmService extends Service {
 	}
 	
 	public void notificate(String title, String content) {
+		System.out.println("AlarmService notificate。。。");
 		Builder builder = new Builder(this);
 		Intent notificationIntent = new Intent(this, MainActivity.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -87,6 +77,9 @@ public class AlarmService extends Service {
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		
 		mNotificationManager.notify(0, notification);
+		
+		// 开始播放音乐
+		mediaPlayer.start();
 	}
 	
 	@Override
@@ -101,9 +94,15 @@ public class AlarmService extends Service {
 			mediaPlayer = MediaPlayer.create(AlarmService.this, R.raw.alarm);
 			// 在MediaPlayer取得播放资源与stop()之后要准备PlayBack的状态前一定要使用MediaPlayer.prepeare()
 //			mediaPlayer.prepareAsync();
+			mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		timer = new Timer();
+		stockTask = new StockTask(this);
+		notifyTask = new NotifyTask();
+		timer.schedule(stockTask, 3000, 10000);
+		timer.schedule(notifyTask, 3000, 1000);
 	}
 
 	@Override
@@ -112,6 +111,8 @@ public class AlarmService extends Service {
 		// 服务停止时停止播放音乐并释放资源
 		mediaPlayer.stop();
 		mediaPlayer.release();
+		timer.cancel();
+		timer = null;
 	}
 
 	@Override
@@ -119,4 +120,19 @@ public class AlarmService extends Service {
 		return null;
 	}
 
+	
+	class NotifyTask extends TimerTask {
+		@Override
+		public void run() {
+			List<Notify> notifies = appManager.getNotifies();
+			if (notifies != null && !notifies.isEmpty()) {
+				for (Iterator<Notify> iterator = notifies.iterator(); iterator.hasNext();) {
+					Notify notify = iterator.next();
+					notificate(notify.title, notify.content);
+					iterator.remove();
+				}
+			}
+		}
+		
+	}
 }

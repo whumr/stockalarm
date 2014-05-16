@@ -17,43 +17,36 @@
 		        android:layout_height="wrap_content"
 		        android:text="@string/code" />
 			
-			<AutoCompleteTextView
-			    android:id="@+id/am_code_edit"
+			<EditText
+			    android:id="@+id/sm_code_edit"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
-		        android:layout_weight="1" 
+		        android:layout_weight="1"
 		        android:digits="1234567890"
 		        android:maxLength="6"
 		        android:inputType="number"
 		        android:hint="@string/hint_code" />
 	    </TableRow>
-	    
+	    <!-- 名称 -->
 	    <TableRow>
-	        <TextView
-		        android:text="@string/percent" />
-		        
-			<EditText
-			    android:id="@+id/am_percent_edit"
-		        android:hint="@string/hint_percent"
-		        android:layout_weight="1" 
-		        android:digits="1234567890."
-		        android:maxLength="5"
-		        android:inputType="numberDecimal" />
+	        <TextView android:text="@string/name" android:layout_height="30dp" />
+			<TextView android:id="@+id/sm_name_text" android:layout_weight="1" />
 	    </TableRow>
-	
+	    <!-- 交易所 -->
 	    <TableRow>
-	        <TextView
-		        android:text="@string/money" />
-		        
-			<EditText
-			    android:id="@+id/am_money_edit"
-		        android:hint="@string/hint_money"
-		        android:layout_weight="1" 
-		        android:digits="1234567890."
-		        android:inputType="numberDecimal"
-		        android:maxLength="5" />
+	        <TextView android:text="@string/market" android:layout_height="30dp" />
+			<TextView android:id="@+id/sm_market_text" android:layout_weight="1" />
 	    </TableRow>
-	    
+	    <!-- 当前价 -->
+	    <TableRow>
+	        <TextView android:text="@string/price" android:layout_height="30dp" />
+			<TextView android:id="@+id/sm_price_text" android:layout_weight="1" />
+	    </TableRow>
+	    <!-- 涨跌幅 -->
+	    <TableRow>
+	        <TextView android:text="@string/updown" android:layout_height="30dp" />
+			<TextView android:id="@+id/sm_updown_text" android:layout_weight="1" />
+	    </TableRow>
 	</TableLayout>
 	    
     <TableRow
@@ -62,13 +55,13 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 		<Button 
-	        android:id="@+id/am_edit_button"
+	        android:id="@+id/sm_edit_button"
 	        android:layout_width="100dp"
 	        android:textSize="12sp"
 	        android:text="@string/confirm"/>
 	
 	    <Button 
-	        android:id="@+id/am_cancel_button"
+	        android:id="@+id/sm_cancel_button"
 	        android:layout_width="100dp"
 	        android:textSize="12sp"
 	        android:text="@string/cancel"/>

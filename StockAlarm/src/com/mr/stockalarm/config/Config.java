@@ -2,7 +2,7 @@ package com.mr.stockalarm.config;
 
 public class Config {
 
-	public static long QUIT_IDLE = 2000;
+	public static long QUIT_IDLE = 2000, ALARM_IDLE = 60 * 1000;
 	
 	public static class NetWork {
 		public static String STOCK_163_URL = "http://api.money.126.net/data/feed/", STOCK_163_CHARSET = "UTF-8";

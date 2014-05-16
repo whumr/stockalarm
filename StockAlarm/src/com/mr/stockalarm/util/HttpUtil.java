@@ -36,7 +36,7 @@ public class HttpUtil {
 	public List<Record> getStocks_163(String codes) {
 		if (codes == null || "".equals(codes.trim()))
 			return null;
-		String[] code = codes.split(",|£¬|\\s+");
+		String[] code = codes.split(",|ï¼Œ|\\s+");
 		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < code.length; i++) {
 			String c = code[i].trim();

@@ -28,6 +28,7 @@ import com.mr.stockalarm.domain.Record;
 import com.mr.stockalarm.domain.Stock;
 import com.mr.stockalarm.service.AlarmService;
 import com.mr.stockalarm.util.HttpUtil;
+import com.mr.stockalarm.util.NetworkUtil;
 import com.mr.stockalarm.view.menu.MainMenu;
 
 public class MainActivity extends BaseActivity {
@@ -44,7 +45,7 @@ public class MainActivity extends BaseActivity {
 	ListView stockList;
 	ArrayAdapter<Stock> adapter;
 	
-	Timer timer;
+//	Timer timer;
 	Handler handler;
 	
 	MainMenu menu;
@@ -79,7 +80,7 @@ public class MainActivity extends BaseActivity {
 			}
 		});
 		
-		timer = new Timer();
+//		timer = new Timer();
 		
 		handler = new Handler() {
 			@Override
@@ -91,16 +92,16 @@ public class MainActivity extends BaseActivity {
 			}
 		};
 		
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				if (checkTime()) {
-					Message msg = new Message();
-					msg.what = Search;
-					handler.sendMessage(msg);
-				}
-			}
-		}, 3000, 10000);
+//		timer.schedule(new TimerTask() {
+//			@Override
+//			public void run() {
+//				if (checkTime() && NetworkUtil.checkNet(MainActivity.this)) {
+//					Message msg = new Message();
+//					msg.what = Search;
+//					handler.sendMessage(msg);
+//				}
+//			}
+//		}, 3000, 10000);
 		
 		Intent intent = new Intent(this, AlarmService.class);
 		startService(intent);
@@ -161,16 +162,16 @@ public class MainActivity extends BaseActivity {
 		search(codeText.getText().toString());
 	}
 	
-	private boolean checkTime() {
-		Calendar cl = Calendar.getInstance();
-		int hour = cl.get(Calendar.HOUR_OF_DAY);
-		int minute = cl.get(Calendar.MINUTE);
-		int second = cl.get(Calendar.SECOND);
-		int time = hour * 10000 + minute * 100 + second;
-		if ((time > 93000 && time < 113100) || (time > 130000 && time < 150100))
-			return true;
-		return false;
-	}
+//	private boolean checkTime() {
+//		Calendar cl = Calendar.getInstance();
+//		int hour = cl.get(Calendar.HOUR_OF_DAY);
+//		int minute = cl.get(Calendar.MINUTE);
+//		int second = cl.get(Calendar.SECOND);
+//		int time = hour * 10000 + minute * 100 + second;
+//		if ((time > 93000 && time < 113100) || (time > 130000 && time < 150100))
+//			return true;
+//		return false;
+//	}
 	
 	private void showToast() {
 		Toast toast = Toast.makeText(MainActivity.this, getString(R.string.search_error_null), Toast.LENGTH_LONG);
@@ -206,6 +207,8 @@ public class MainActivity extends BaseActivity {
 		System.out.println("MainActivity finish");
 		Intent intent = new Intent(this, AlarmService.class);
 		stopService(intent);
+//		timer.cancel();
+//		timer = null;
 		super.finish();
 	}
 	

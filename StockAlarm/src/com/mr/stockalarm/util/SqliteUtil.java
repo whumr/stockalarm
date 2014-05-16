@@ -60,6 +60,15 @@ public class SqliteUtil extends SQLiteOpenHelper {
 		return list;
 	}
 	
+	public void insertStock(SQLiteDatabase db, Stock stock) {
+		if (stock != null) {
+			Cursor cursor = db.rawQuery(SQL.GET_STOCK_BY_CODE, new String[]{stock.code});
+			if (!cursor.moveToNext())
+				db.execSQL(SQL.INSERT_STOCK, new String[]{stock.code, stock.name, stock.type, stock.symbol});
+			cursor.close();
+		}
+	}
+	
 	public void insertStocks(SQLiteDatabase db, List<Stock> stocks) {
 		if (stocks != null && !stocks.isEmpty()) {
 			StringBuilder buffer = new StringBuilder();

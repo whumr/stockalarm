@@ -28,6 +28,6 @@ public class Stock {
 	@Override
 	public String toString() {
 		return symbol + " " + name + " " + price
-			+ " " + updown + " " + FormatUtil.formatDouble(percent) + "% " + FormatUtil.dateToTime(update);
+			+ " " + updown + " " + FormatUtil.formatPercentToString(percent) + FormatUtil.dateToTime(update);
 	}
 }

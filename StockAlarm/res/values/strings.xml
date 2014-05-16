@@ -19,6 +19,9 @@
     <string name="name">名称</string>
     <string name="percent">百分比</string>
     <string name="money">金额</string>
+    <string name="market">市场</string>
+    <string name="price">当前价</string>
+    <string name="updown">涨跌</string>
     
     <string name="add">添加</string>
     <string name="confirm">确定</string>
@@ -31,8 +34,15 @@
     
     <string name="invalid_percent">百分比格式不正确</string>
     <string name="invalid_money">金额格式不正确</string>
+    <string name="empty_code">请输入代码</string>
+    <string name="invalid_code">未查到结果,请修改代码后重试!</string>
+    <string name="repeat_code">该股票已存在,请修改代码后重试!</string>
     
     <string name="title_activity_stock_manager">关注股管理</string>
     <string name="title_activity_alarm_manager">提醒设置</string>
+
+    <string name="alarm_title">提醒, # 超过提醒值.</string>
+    <string name="alarm_content_down">您关注的股票 # 跌幅 #,下跌 # 元,现价 # 元.</string>
+    <string name="alarm_content_up">您关注的股票 # 涨幅 #,上涨 # 元,现价 # 元.</string>
 
 </resources>

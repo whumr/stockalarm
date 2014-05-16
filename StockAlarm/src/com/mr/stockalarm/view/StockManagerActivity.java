@@ -10,18 +10,19 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mr.stockalarm.R;
 import com.mr.stockalarm.common.BaseFragmentActivity;
 import com.mr.stockalarm.domain.Stock;
+import com.mr.stockalarm.view.fragment.StockFragment;
 
 public class StockManagerActivity extends BaseFragmentActivity {
 	
 	ListView stockList;
-	ListAdapter adapter;
+	StockManagerListAdapter adapter;
+	StockFragment stockFragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,22 @@ public class StockManagerActivity extends BaseFragmentActivity {
 		stockList = (ListView)findViewById(R.id.stockManageList);
 		adapter = new StockManagerListAdapter(stocks);
 		stockList.setAdapter(adapter);
+		
+		stockFragment = new StockFragment(this);
+		Button addButton = (Button)findViewById(R.id.sm_add_button);
+		addButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				stockFragment.show(getSupportFragmentManager(), "stockFragment");
+			}
+		});
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		System.out.println("StockManagerActivity onResume...");
+		adapter.notifyDataSetChanged();
 	}
 	
 	class StockManagerListAdapter extends BaseAdapter {

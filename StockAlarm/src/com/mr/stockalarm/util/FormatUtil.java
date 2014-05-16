@@ -10,6 +10,7 @@ public class FormatUtil {
 	public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	public static SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
 	public static DecimalFormat DOUBLE_FORMAT = new DecimalFormat(".##");
+	public static DecimalFormat DOUBLE_FORMAT_PERCENT = new DecimalFormat(".##%");
 	
 	public static String intToDate(int seconds) {
 		return DATE_FORMAT.format(new Date(seconds * 1000L));
@@ -17,6 +18,14 @@ public class FormatUtil {
 
 	public static double formatDouble(double percent) {
 		return Double.parseDouble(DOUBLE_FORMAT.format(percent * 100));
+	}
+	
+	public static String formatDoubleToString(double percent) {
+		return DOUBLE_FORMAT.format(percent);
+	}
+
+	public static String formatPercentToString(double percent) {
+		return DOUBLE_FORMAT_PERCENT.format(percent * 100);
 	}
 	
 	public static double stringToDouble(String str) {
